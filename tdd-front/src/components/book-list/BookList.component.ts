@@ -8,6 +8,10 @@ export default class BookListComponent {
 
     constructor() {
         this.getBooksService = new GetBooksService();
-        this.books = this.getBooksService.get();
+        this.getBooks();
+    }
+
+    async getBooks() {
+        this.books = await this.getBooksService.get();
     }
 }

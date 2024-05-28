@@ -1,16 +1,26 @@
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
-import BookListComponent from './BookList.component';
+    import { defineComponent, reactive, ref, onMounted } from 'vue';
+    import BookListComponent from './BookList.component';
+import type { Book } from '@/functional/domain/model/Book';
 
-export default defineComponent({
-  name: 'BookListComponent',
-  setup() {
-    const bookListComponent = ref(new BookListComponent());
-    return {
-        bookListComponent
-    };
-  }
-});
+
+    export default defineComponent({
+    name: 'BookList',
+    setup() {
+        let books = ref<Book[]>([]);
+
+        onMounted(async () => {
+            const bookListComponent = new BookListComponent();
+            await bookListComponent.getBooks();
+            console.log("Monté");
+            books.value = bookListComponent.books;
+        });
+
+        return {
+            books
+        };
+    }
+    });
 </script>
 
 <template>
@@ -22,7 +32,7 @@ export default defineComponent({
                 <td data-test="book-list-table-name-column">Nom</td>
             </thead>
             <tbody>
-                <tr data-test="book-list-table-row" v-for="book in bookListComponent.books" :key="book.name">
+                <tr data-test="book-list-table-row" v-for="book in books" :key="book.name">
                     <td data-test="book-list-table-author-cell">{{ book.author }}</td>
                     <td data-test="book-list-table-name-cell">{{ book.name }}</td>
                 </tr>
