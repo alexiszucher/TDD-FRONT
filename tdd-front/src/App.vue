@@ -1,12 +1,14 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
-import BookList from './components/book-list/BookList.vue'
+  import { RouterLink, RouterView } from 'vue-router'
+  import BookList from './components/book-list/BookList.vue'
+  import BookAdd from './components/book-add/BookAdd.vue'
 </script>
 
 <template>
   <header>
     <div class="wrapper">
       <BookList />
+      <BookAdd />
     </div>
   </header>
 
