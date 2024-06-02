@@ -1,21 +1,30 @@
+import UseCaseResponse from "@/functional/application/UseCaseResponse";
 import { Book } from "@/functional/domain/model/Book";
 import type { BookRepository } from "@/functional/domain/repository/BookRepository";
+import BookDatabase from "../database/BookDatabase";
 
 export class BookRepositoryImpl implements BookRepository {
-    private books: Book[] = [];
+    public id: number = 3;
+    constructor() {}
 
-    constructor() {
-        this.books.push(new Book('George Orwell', '1984'));
-        this.books.push(new Book('Aldous Huxley', 'Brave New World'));
-        this.books.push(new Book('Ray Bradbury', 'Fahrenheit 451'));
+    add(book: Book): Promise<UseCaseResponse<number>> {
+        this.id++;
+        book.id = this.id;
+        // Simulez une requête API
+        return new Promise((resolve) => {
+            BookDatabase.books.push(book);
+            if(book.id) {
+                return resolve(UseCaseResponse.createSuccessReponse(book.id));
+            }
+        });
     }
 
     getAll(): Promise<Book[]> {
         // Simulez une requête API
         return new Promise((resolve) => {
             setTimeout(() => {
-            resolve(this.books);
-            }, 1000);
+            resolve(BookDatabase.books);
+            }, 100);
         });
     }
 }

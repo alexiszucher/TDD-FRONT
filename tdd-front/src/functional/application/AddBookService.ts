@@ -2,7 +2,7 @@ import { Book } from "../domain/model/Book";
 import type { BookRepository } from "../domain/repository/BookRepository";
 import type UseCaseResponse from "./UseCaseResponse";
 
-export default class AddBooksService {
+export default class AddBookService {
     private bookRepository: BookRepository;
 
     constructor(bookRepository: BookRepository) {

@@ -1,80 +1,42 @@
-<script setup lang="ts">
-  import { RouterLink, RouterView } from 'vue-router'
-  import BookList from './components/book-list/BookList.vue'
-  import BookAdd from './components/book-add/BookAdd.vue'
+<script lang="ts">
+import BookAdd from './components/book-add/BookAdd.vue';
+import BookList from './components/book-list/BookList.vue';
+import { ref } from 'vue';
+import './style.scss'
+
+export default {
+  name: 'App',
+  components: {
+    BookList,
+    BookAdd
+  },
+  setup() {
+    const componentKey = ref(0);
+
+    const refreshBookList = () => {
+      componentKey.value++;
+    };
+
+    return {
+      componentKey,
+      refreshBookList
+    };
+  }
+};
 </script>
 
 <template>
-  <header>
-    <div class="wrapper">
-      <BookList />
-      <BookAdd />
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-6">
+        <button data-test="refresh-book-list-button" type="button" @click="refreshBookList" class="btn btn-primary">Rafraichir</button>
+      </div>
+      <div class="col-6">
+        <BookAdd />
+      </div>
+      <div class="col-12">
+        <BookList :key="componentKey" />
+      </div>
     </div>
-  </header>
-
-  <RouterView />
+  </div>
 </template>
-
-<style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
-}
-
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
-
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
-}
-</style>
